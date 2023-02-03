@@ -75,7 +75,7 @@ VALUES (
     ),
     ('Forge Forth',
     'Tactics',
-    'Adventure onwards.'
+    'Adventure onwards.',
     'spell'
     );
 

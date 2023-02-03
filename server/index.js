@@ -4,13 +4,24 @@ const db = require('.db')
 const cors = require('cors')
 
 const app = express();
-const PORT = 3002;
-app.use(cors());
+const PORT = process.env.PORT || 3002;
+
+//When processing json content
 app.use(express.json())
 
+var corsOptions = {
+    origin: "http://localhost:3002"
+}
+
+app.use(cors(corsOptions));
+
+//when processing URL content
+app.use(express.urlencoded({extended: true}));
 
 //ROUTES:
-
+app.get("/", (req, res) => {
+    res.json({message: "Welcome to LOTR LCG Assistant."})
+})
 //READ
 
 //Read all cards
