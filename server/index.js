@@ -18,6 +18,10 @@ app.use(cors(corsOptions));
 //when processing URL content
 app.use(express.urlencoded({extended: true}));
 
+
+const db = require("./app/models");
+db.sequelize.sync();
+
 //ROUTES:
 app.get("/", (req, res) => {
     res.json({message: "Welcome to LOTR LCG Assistant."})
