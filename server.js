@@ -2,13 +2,13 @@
 const express = require('express');
 const cors = require('cors')
 const app = express();
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 8080;
 
 //When processing json content
 app.use(express.json())
 
 var corsOptions = {
-    origin: "http://localhost:3002"
+    origin: "http://localhost:8081"
 }
 
 app.use(cors(corsOptions));

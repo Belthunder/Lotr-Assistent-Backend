@@ -8,7 +8,7 @@ exports.create = (req, res) => {
     //validate the request: if there's no card name, it's not a valid request
     if (!req.body.card_name) {
         res.status(400).send({
-            message: "Card requires a title."
+            message: "Card requires a name."
         });
         return;
     }
@@ -36,7 +36,7 @@ exports.create = (req, res) => {
 //to read all cards:
 exports.findAll = (req, res) => {
     const card_name = req.query.card_name;
-    var condition = card_name? {card_name: {[Op.like]: `%${title}%`}} : null;
+    var condition = card_name? {card_name: {[Op.like]: `%${card_name}%`}} : null;
 
     Card.findAll({ where: condition}).then(data => {
         res.send(data);
@@ -64,7 +64,7 @@ exports.findOne = (req, res) => {
     })
     .catch(err => {
         res.status(500).send({
-            message: "Error retrieving Card with id=" + id
+            message: "Error retrieving Card with card_id=" + id
         });
     });
 };
@@ -82,7 +82,7 @@ exports.update = (req, res) => {
             });
         } else {
             res.send({
-                message: `Can't update Card with id=${id}.`
+                message: `Can't update Card with card_id=${id}.`
             });
         }
     })

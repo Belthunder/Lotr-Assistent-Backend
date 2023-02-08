@@ -1,3 +1,5 @@
+const { DataTypes } = require("sequelize");
+
 module.exports = (sequelize, Sequelize) => {
     const Card = sequelize.define("card", {
         card_name: {
@@ -11,7 +13,7 @@ module.exports = (sequelize, Sequelize) => {
         },
         card_text: {
             type: Sequelize.STRING
-        }
+        }, 
     });
 
     return Card;
