@@ -22,5 +22,18 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.cards = require("./card.model.js")(sequelize, Sequelize);
+db.decks = require("./deck.model.js")(sequelize, Sequelize);
+
+db.cards.belongsToMany(db.decks, {
+    through: "decks_cards",
+    as: "cards",
+    foreignKey: "card_id"
+});
+
+db.decks.belongsToMany(db.cards, {
+    through: "decks_cards",
+    as: "decks",
+    foreignKey: "deck_id"
+});
 
 module.exports = db;
