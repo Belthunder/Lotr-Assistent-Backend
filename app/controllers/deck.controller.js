@@ -1,6 +1,7 @@
 const db = require("../models");
 
 const Deck = db.decks;
+const Card = db.cards;
 const Op = db.sequelize.Op;
 
 //to create a new deck:
@@ -101,6 +102,31 @@ exports.deleteAll = (req,res) => {
     .catch(err => {
         res.status(500).send({
             message: err.message || "An error occurred while trying to remove decks."
+        });
+    });
+};
+
+//to add a card to a deck:
+exports.addCard = (req, res) => {
+    const card_id = req.params.card__id;
+    const deck_id = req.params.deck_id;
+
+    return Deck.findbyPk(deck_id).then((deck) => {
+        if(!deck) {
+            res.status(400).send({message: `Could not find deck with id =${deck_id} to send card to.`});
+        }
+        return Card.findbyPk(card_id).then((card) => {
+            if(!card) {
+                res.status(400).send({message: `Could not find card with id=E${card_id} to send to deck.`});
+            }
+            
+            deck.addCard(card).then(data => {
+                res.send(data);
+            }).catch(err => {
+                res.status(500).send({
+                    message: err.message || "An error occurred while associating card with deck."
+                });
+            });
         });
     });
 };
