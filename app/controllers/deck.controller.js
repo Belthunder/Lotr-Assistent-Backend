@@ -68,3 +68,39 @@ exports.findOne = (req, res) => {
 };
 
 //To update a specific Deck:
+exports.delete = (req, res) => {
+    const id = req.params.id;
+
+    Deck.destroy({
+        where: {id: id}
+    }).then(num => {
+        if(num == 1) {
+            res.send({
+                message: "Deck was successfully deleted!"
+            });
+        } else {
+            res.send({
+                message: `Can't delete the deck with id=${id}.`
+            });
+        }
+    }).catch(err => {
+        res.status(500).send({
+            message: "Could not delete the deck with id= " + id
+        });
+    });
+};
+
+//to delete all decks:
+exports.deleteAll = (req,res) => {
+    Deck.destroy({
+        where: {},
+        truncate: false
+    }).then(nums => {
+        res.send({message: `${nums} decks were successfully deleted.`})
+    })
+    .catch(err => {
+        res.status(500).send({
+            message: err.message || "An error occurred while trying to remove decks."
+        });
+    });
+};
