@@ -27,7 +27,7 @@ exports.create = (req, res) => {
         res.send(data);
     })
     .catch(err => {
-        res.staus(500).send({
+        res.status(500).send({
             message: err.message || "an error occurred while creating the deck"
         });
     });
@@ -52,7 +52,7 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
-    Deck.findbyPk(id).then(data => {
+    Deck.findByPk(id).then(data => {
         if(data) {
             res.send(data);
         } else {
@@ -69,6 +69,30 @@ exports.findOne = (req, res) => {
 };
 
 //To update a specific Deck:
+exports.update = (req, res) => {
+    const id = req.params.id;
+
+    Deck.update(req.body, {
+        where: {id: id}
+    }).then(num => {
+        if(num == 1) {
+            res.send({
+                message: "Deck was updated successfully."
+            });
+        } else {
+            res.send({
+                message: `Can't update deck with deck_id=${id}.`
+            });
+        }
+    })
+    .catch(err => {
+        res.status(500).send({
+            message: "Error updating deck with id = " + id
+        });
+    });
+};
+
+//to delete a specific deck
 exports.delete = (req, res) => {
     const id = req.params.id;
 
@@ -108,7 +132,7 @@ exports.deleteAll = (req,res) => {
 
 //to add a card to a deck:
 exports.addCard = (req, res) => {
-    const card_id = req.params.card__id;
+    const card_id = req.params.card_id;
     const deck_id = req.params.deck_id;
 
     return Deck.findbyPk(deck_id).then((deck) => {
