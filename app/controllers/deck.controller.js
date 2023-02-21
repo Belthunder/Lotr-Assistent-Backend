@@ -131,37 +131,24 @@ exports.deleteAll = (req,res) => {
 };
 
 exports.addCardToDeck = (req, res) => {
-    const deck = Deck.findByPk(parseInt(req.params.card_id));
-    const card = Card.findByPk(parseInt(req.params.deck_id));
-
-    deck.addCard(card);
-    console.log("added card to deck")
-};
-
-
-//to add a card to a deck:
-/*exports.addCardToDeck = (req, res) => {
-    const card_id = parseInt(req.params.card_id);
-    const deck_id = parseInt(req.params.deck_id);
-
-    return Deck.findByPk(deck_id).then((deck) => {
+    return Deck.findByPk(parseInt(req.body.deck_id)).then((deck) => {
         if(!deck) {
-            res.status(400).send({message: `Could not find deck with id =${deck_id} to send card to.`});
+            res.status(400).send({message: `deck with id ${req.body.deck_id} was not found`})
             return null;
         }
-        return Card.findByPk(card_id).then((card) => {
-            if(!card) {
-                res.status(400).send({message: `Could not find card with id=E${card_id} to send to deck.`});
+        return Card.findByPk(parseInt(req.body.card_id)).then((card) => {
+            if (!card) {
+                res.status(400).send({message: `card with id ${req.body.card_id} was not found`})
                 return null;
             }
-            deck.addCard(card).then(data => {
-                res.send(data);
-            }).catch(err => {
-                res.status(500).send({
-                    message: err.message || "An error occurred while associating card with deck."
-                });
-            });
+
+
+            deck.addCard(card);
+            res.send({message: `Added card ${card.id} to deck ${deck.id}.`})
+            return deck;
         });
+    }).catch(err => {
+        res.status(400).send({message: `error while adding card to deck`});
     });
-};*/
+};
 
