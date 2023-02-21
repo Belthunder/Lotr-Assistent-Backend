@@ -130,20 +130,30 @@ exports.deleteAll = (req,res) => {
     });
 };
 
-//to add a card to a deck:
-exports.addCard = (req, res) => {
-    const card_id = req.params.card_id;
-    const deck_id = req.params.deck_id;
+exports.addCardToDeck = (req, res) => {
+    const deck = Deck.findByPk(parseInt(req.params.card_id));
+    const card = Card.findByPk(parseInt(req.params.deck_id));
 
-    return Deck.findbyPk(deck_id).then((deck) => {
+    deck.addCard(card);
+    console.log("added card to deck")
+};
+
+
+//to add a card to a deck:
+/*exports.addCardToDeck = (req, res) => {
+    const card_id = parseInt(req.params.card_id);
+    const deck_id = parseInt(req.params.deck_id);
+
+    return Deck.findByPk(deck_id).then((deck) => {
         if(!deck) {
             res.status(400).send({message: `Could not find deck with id =${deck_id} to send card to.`});
+            return null;
         }
-        return Card.findbyPk(card_id).then((card) => {
+        return Card.findByPk(card_id).then((card) => {
             if(!card) {
                 res.status(400).send({message: `Could not find card with id=E${card_id} to send to deck.`});
+                return null;
             }
-            
             deck.addCard(card).then(data => {
                 res.send(data);
             }).catch(err => {
@@ -153,4 +163,5 @@ exports.addCard = (req, res) => {
             });
         });
     });
-};
+};*/
+

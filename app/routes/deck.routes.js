@@ -21,5 +21,8 @@ module.exports = app => {
     //delete all decks:
     router.delete("/", decks.deleteAll);
 
+    //add a card to a deck:
+    router.post("/add", decks.addCardToDeck);
+
     app.use("/api/decks", router)
 }
