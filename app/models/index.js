@@ -26,11 +26,13 @@ db.decks = require("./deck.model.js")(sequelize, Sequelize);
 
 db.cards.belongsToMany(db.decks, {
     through: "cards_in_decks",
+    as: "cards",
     foreignKey: "card_id",
 });
 
 db.decks.belongsToMany(db.cards, {
     through: "cards_in_decks",
+    as: "decks",
     foreignKey: "deck_id",
 });
 

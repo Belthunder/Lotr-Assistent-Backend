@@ -38,7 +38,19 @@ exports.findAll = (req, res) => {
     const deck_name = req.query.deck_name;
     var condition = deck_name? {deck_name: {[Op.like]: `%${deck_name}%`}} : null;
 
-    Deck.findAll({ where: condition }).then(data => {
+    Deck.findAll({ 
+        where: condition,
+        include: [
+            {
+                model: Card,
+                as: "cards",
+                attributes: ["card_name"],
+                through: {
+                    attributes: []
+                }
+            }
+        ] 
+    }).then(data => {
         res.send(data);
     })
     .catch(err => {
