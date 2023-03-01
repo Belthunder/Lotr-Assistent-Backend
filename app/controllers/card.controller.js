@@ -53,7 +53,10 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
-    Card.findByPk(id).then(data => {
+    Card.findAll({where: {
+        card_name: id
+        }
+    }).then(data => {
         if(data) {
             res.send(data);
         } else {

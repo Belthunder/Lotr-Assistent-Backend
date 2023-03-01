@@ -64,7 +64,10 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
-    Deck.findByPk(id).then(data => {
+    Deck.findAll({where: {
+        deck_name: id
+        }
+    }).then(data => {
         if(data) {
             res.send(data);
         } else {
