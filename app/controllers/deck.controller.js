@@ -46,7 +46,7 @@ exports.findAll = (req, res) => {
                 as: "cards",
                 attributes: ["card_name"],
                 through: {
-                    attributes: []
+                    attributes: ["card_number"]
                 }
             }
         ] 
@@ -154,8 +154,8 @@ exports.addCardToDeck = (req, res) => {
                 return null;
             }
 
-
-            deck.addCard(card);
+            let card_number = req.body.card_number;
+            deck.addCard(card, { through: {card_number: parseInt(card_number)}} );
             res.send({message: `Added card ${card.id} to deck ${deck.id}.`})
             return deck;
         });
