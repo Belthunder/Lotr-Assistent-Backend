@@ -38,7 +38,19 @@ exports.findAll = (req, res) => {
     const deck_name = req.query.deck_name;
     var condition = deck_name? {deck_name: {[Op.like]: `%${deck_name}%`}} : null;
 
-    Deck.findAll({ where: condition }).then(data => {
+    Deck.findAll({ 
+        where: condition,
+        include: [
+            {
+                model: Card,
+                as: "cards",
+                attributes: ["card_name"],
+                through: {
+                    attributes: ["card_number"]
+                }
+            }
+        ] 
+    }).then(data => {
         res.send(data);
     })
     .catch(err => {
@@ -142,8 +154,8 @@ exports.addCardToDeck = (req, res) => {
                 return null;
             }
 
-
-            deck.addCard(card);
+            let card_number = req.body.card_number;
+            deck.addCard(card, { through: {card_number: parseInt(card_number)}} );
             res.send({message: `Added card ${card.id} to deck ${deck.id}.`})
             return deck;
         });
