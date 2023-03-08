@@ -51,10 +51,10 @@ exports.findAll = (req, res) => {
 
 //to read a specific card:
 exports.findOne = (req, res) => {
-    const id = req.params.id;
+    const id = parseInt(req.params.id);
 
     Card.findAll({where: {
-        card_name: id
+        id: id
         }
     }).then(data => {
         if(data) {

@@ -62,10 +62,10 @@ exports.findAll = (req, res) => {
 
 //To find a specific Deck:
 exports.findOne = (req, res) => {
-    const id = req.params.id;
+    const id = parseInt(req.params.id);
 
     Deck.findAll({where: {
-        deck_name: id
+        id: id
         }
     }).then(data => {
         if(data) {
