@@ -44,9 +44,9 @@ exports.findAll = (req, res) => {
             {
                 model: Card,
                 as: "cards",
-                attributes: ["card_name"],
+                attributes: ["card_name", "card_sphere", "card_text"],
                 through: {
-                    attributes: ["card_number"]
+                    attributes: ["card_number"],
                 }
             }
         ] 
